@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import UserRegistrationForm, UserLoginForm
+from home.models import Post
 
 
-# Create your views here.
 class UserRegisterView(View):
     form_class = UserRegistrationForm
     template_name = 'account/register.html'
@@ -74,4 +74,5 @@ class UserLogoutView(LoginRequiredMixin, View):
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
+        posts = Post.objects.filter(user=user)
         return render(request, 'account/profile.html', {'user': user})
