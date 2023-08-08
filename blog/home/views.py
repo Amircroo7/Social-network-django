@@ -13,6 +13,8 @@ from django.utils.decorators import method_decorator
 class HomeView(View):
     def get(self, request):
         posts = Post.objects.all()
+        if request.GET.get('search'):
+            posts = posts.filter(body__contains=request.GET['search'])
         return render(request, 'home/index.html', {'posts': posts})
 
 
